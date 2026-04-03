@@ -81,6 +81,62 @@ class MultiLayerPerceptron:
 
 
 
+
        
         return layer_inputs, current_a
     
+    def backpropagation(self, layer_inputs, final_output, y_true):
+        """
+        1-do the backward pass 
+        2- update all weights.
+
+        Parameters:
+            layer_inputs : list of arrays from forward_propagation()
+                        each entry is the input to that layer (with bias col if enabled)
+            final_output : the network's output after the last activation (shape: [batch, output_size])
+            y_true       : ground-truth one-hot labels (shape: [batch, output_size])
+        """
+
+
+        error = y_true - final_output                          
+        delta = error * self.activation_derivative(final_output)  
+
+        for i in reversed(range(len(self.weights))):
+
+            inp = layer_inputs[i]          
+            W   = self.weights[i]         
+            grad_W = np.dot(inp.T, delta) / inp.shape[0]      
+            self.weights[i] += self.lr * grad_W                
+
+        
+            if i > 0:
+                # Remove the bias row from W before propagating
+                W_no_bias = W[:-1, :] if self.use_bias else W  
+
+                # delta for layer i-1:  (delta · W.T) * f'(a_{i-1})
+                # layer_inputs[i] without the appended bias column = activation of layer i-1
+                prev_a = inp[:, :-1] if self.use_bias else inp  
+                delta  = np.dot(delta, W_no_bias.T) * self.activation_derivative(prev_a)
+
+        print("Weights updated successfully after backpropagation.") 
+
+    def train(self, x_train, y_train, epochs):
+
+        for epoch in range(epochs):
+            layer_inputs, final_output = self.forward_propagation(x_train)
+            self.backpropagation(layer_inputs, final_output, y_train)
+            print(f"Epoch {epoch+1}/{epochs} completed.\n")
+        return final_output    
+
+    def test(self, x_test):
+        _, final_output = self.forward_propagation(x_test)
+        predictions =[]
+        # check each row and get index of max value 
+        for rows in final_output:
+            row_l=list(rows)
+            max_value=max(row_l)
+            max_index=row_l.index(max_value)
+            predictions.append(max_index)
+        return np.array(predictions)
+        
+

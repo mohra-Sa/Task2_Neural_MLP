@@ -5,7 +5,7 @@ import numpy as np
 
 
 def preprocess_data():
-    df = pd.read_csv("D:/3rd year/2nd term/Neural Network/Task2_neural/penguins.csv")
+    df = pd.read_csv("penguins.csv")
 
     # Handle missing values by species-wise mean
     numeric_cols = ['CulmenLength', 'CulmenDepth', 'FlipperLength', 'BodyMass']
@@ -55,12 +55,4 @@ def preprocess_data():
     print("y_test shape:", y_test.shape)    # Should be (60, 3)
 
    
-
-
-
-   
-
-
-
-    #
-    return X_train, y_train, X_test, y_test, scaler, species_list
+    return X_train, y_train, X_test, y_test, species_list

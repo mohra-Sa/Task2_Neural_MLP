@@ -1,7 +1,14 @@
 import numpy as np
+def mapping_y_true(y_true):
+    y_test = []
+    for rows in y_true:
+            row_l=list(rows)
+            max_index=row_l.index(max(row_l))
+            y_test.append(max_index)
+    return y_test
 
 def compute_confusion_matrix(y_true, y_pred, num_classes=3):
-  
+    y_true = mapping_y_true(y_true)
     # Initialize matrix with zeros
     matrix = []
     for i in range(num_classes):
@@ -18,6 +25,7 @@ def compute_confusion_matrix(y_true, y_pred, num_classes=3):
 
 def compute_accuracy(y_true, y_pred):
     
+    y_true = mapping_y_true(y_true)
     if len(y_true) == 0:
         return 0
         
@@ -30,6 +38,7 @@ def compute_accuracy(y_true, y_pred):
 
 def compute_binary_metrics(y_true, y_pred, class_index):
    
+    y_true = mapping_y_true(y_true)
     TP = 0
     TN = 0
     FP = 0
