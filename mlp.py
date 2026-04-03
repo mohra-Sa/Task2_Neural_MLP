@@ -44,10 +44,7 @@ class MultiLayerPerceptron:
             return np.tanh(x)
         return x
     def activation_derivative(self, a):
-        """
-        Derivative: Required for back-propagation to calculate the gradient.
-        'a' is the activation output itself.
-        """
+       
         # a is the f(x) output of the activation function, so we can compute the derivative based on that.
         if self.activation_type == 'Sigmoid':
             # f'(x) = f(x) * (1 - f(x))
@@ -58,10 +55,7 @@ class MultiLayerPerceptron:
         
     
     def forward_propagation(self, X_input):
-        """
-        Forward Pass: Calculate the output of each layer.
-        Returns layer_inputs (activations + bias if applicable) and the final output.
-        """
+        
         layer_inputs = []
         current_a = X_input   
         
