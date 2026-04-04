@@ -55,4 +55,4 @@ def preprocess_data():
     print("y_test shape:", y_test.shape)    # Should be (60, 3)
 
    
-    return X_train, y_train, X_test, y_test, species_list
+    return X_train, y_train, X_test, y_test, species_list, scaler
